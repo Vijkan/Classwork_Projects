@@ -11,7 +11,6 @@ class main {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 board[i][j] = bnum;
-                System.out.println(bnum);
                 bnum++;
                 
             }
@@ -34,7 +33,7 @@ class main {
                     if (!Check.check(testrow,testcol,board)){
                         correctsol[movenum]= board[testrow][testcol];
                         movenum++;
-                        board[testrow][testcol]=-1;
+                        
                         lastsplit[y][0] = currrow;
                         lastsplit[y][1] = currcol;
                         currrow=testrow;
@@ -57,7 +56,7 @@ class main {
                     if (!Check.check(testrow,testcol,board)){
                         correctsol[movenum]= board[testrow][testcol];
                         movenum++;
-                        board[testrow][testcol]=-1;
+                        
                         lastsplit[y][0] = currrow;
                         lastsplit[y][1] = currcol;
                         currrow=testrow;
@@ -79,7 +78,7 @@ class main {
                     if (!Check.check(testrow,testcol,board)){
                         correctsol[movenum]= board[testrow][testcol];
                         movenum++;
-                        board[testrow][testcol]=-1;
+                        
                         lastsplit[y][0] = currrow;
                         lastsplit[y][1] = currcol;
                         currrow=testrow;
@@ -102,7 +101,7 @@ class main {
                        
                         correctsol[movenum]= board[testrow][testcol];
                         movenum++;
-                        board[testrow][testcol]=-1;
+                        
                         lastsplit[y][0] = currrow;
                         lastsplit[y][1] = currcol;
                         currrow=testrow;
@@ -123,7 +122,7 @@ class main {
                     if (!Check.check(testrow,testcol,board)){
                         correctsol[movenum]= board[testrow][testcol];
                         movenum++;
-                        board[testrow][testcol]=-1;
+                        
                         lastsplit[y][0] = currrow;
                         lastsplit[y][1] = currcol;
                         currrow=testrow;
@@ -146,7 +145,7 @@ class main {
                     if (!Check.check(testrow,testcol,board)){
                         correctsol[movenum]= board[testrow][testcol];
                         movenum++;
-                        board[testrow][testcol]=-1;
+                        
                         lastsplit[y][0] = currrow;
                         lastsplit[y][1] = currcol;
                         currrow=testrow;
@@ -168,7 +167,7 @@ class main {
                     if (!Check.check(testrow,testcol,board)){
                         correctsol[movenum]= board[testrow][testcol];
                         movenum++;
-                        board[testrow][testcol]=-1;
+                        
                         lastsplit[y][0] = currrow;
                         lastsplit[y][1] = currcol;
                         currrow=testrow;
@@ -190,7 +189,7 @@ class main {
                     if (!Check.check(testrow,testcol,board)){
                         correctsol[movenum]= board[testrow][testcol];
                         movenum++;
-                        board[testrow][testcol]=-1;
+                        
                         lastsplit[y][0] = currrow;
                         lastsplit[y][1] = currcol;
                         currrow=testrow;
@@ -202,9 +201,11 @@ class main {
                         currrow=lastsplit[y][0];
                         currcol=lastsplit[y][1];
                         y--;
+                        movenum--;
                         continue;
                     }
                 }
+
         }  
             catch (ArrayIndexOutOfBoundsException e) {
                 continue;
@@ -214,9 +215,6 @@ class main {
                     // once tried all if we're back on start than we must be done 
                     solved=true;
                     break;
-                }
-                else{
-                    movenum--;
                 }
             }
  
