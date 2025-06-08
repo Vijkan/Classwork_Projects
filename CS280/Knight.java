@@ -1,246 +1,73 @@
 //Mihir kandlur
-class main {
+
+class Main {
     public static void main(String[] args) {
         boolean solved = false;
-        int[][]  board =new int[8][8];
-        int [] correctsol = new int[64];
-        int[][] lastsplit= new int[64][2]; 
-        int[][] triedmoves= new int [65][8];// keeps track of which moves have been tried on each board number
-        int movenum= 0;//so I can put it in correct sol easy 
-        int bnum = 1; //for board numbers
+        int[][] board = new int[8][8];
+        int[] correctsol = new int[64];
+        int[][] lastsplit = new int[64][2];
+        int[][] triedmoves = new int[65][8];
+
+        int movenum = 0;
+        int bnum = 1;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                board[i][j] = bnum;
-                bnum++;
-                
+                board[i][j] = bnum++;
             }
         }
+
         int currrow = 0;
         int currcol = 0;
-        int testrow = 0;
-        int testcol = 0;
-        int y=0;//split
-      correctsol[movenum] = board[0][0];
- Check.visited[board[0][0]] = board[0][0];
-  movenum++;
+        int testrow, testcol;
+        int y = 0;
+        correctsol[movenum] = board[0][0];
+        Check.visited[board[0][0]] = board[0][0];
+        movenum++;
 
-        while (!solved){
-            try {
-                if (board[currrow+2][currcol+1] <8 && triedmoves[board[currrow][currcol]][0]!=-1){
-                    triedmoves[board[currrow][currcol]][0]=-1;
-                    testrow = currrow + 2;
-                    testcol = currcol + 1;
-                    if (!Check.check(testrow,testcol,board)){
-                        correctsol[movenum]= board[testrow][testcol];
-                        movenum++;
-                        
-                        lastsplit[y][0] = currrow;
-                        lastsplit[y][1] = currcol;
-                        currrow=testrow;
-                        currcol=testcol;
-                        y++;
-                    }
-                    else{
-                        currrow=lastsplit[y][0];
-                        currcol=lastsplit[y][1];
-                        y--;
-                        triedmoves[board[currrow][currcol]][0]=-1;
-                        continue;
-                    }
+        while (!solved) {
+            boolean moved = false;
+            for (int dir = 0; dir < 8; dir++) {
+                int[] drow = {2, 2, -2, -2, 1, 1, -1, -1};
+                int[] dcol = {1, -1, 1, -1, 2, -2, 2, -2};
+                testrow = currrow + drow[dir];
+                testcol = currcol + dcol[dir];
 
-                }
-                else if (board[currrow+2][currcol-1] <8 && board[currrow+2][currcol-1]>0 && triedmoves[board[currrow][currcol]][1]!=-1){
-                    testrow = currrow + 2;
-                    testcol = currcol - 1;
-                    triedmoves[board[currrow][currcol]][1]=-1;
-                    if (!Check.check(testrow,testcol,board)){
-                        correctsol[movenum]= board[testrow][testcol];
-                        movenum++;
-                        
+                if (testrow >= 0 && testrow < 8 && testcol >= 0 && testcol < 8
+                        && triedmoves[board[currrow][currcol]][dir] == 0) {
+                    triedmoves[board[currrow][currcol]][dir] = -1;
+                    if (!Check.check(testrow, testcol, board)) {
+                        correctsol[movenum] = board[testrow][testcol];
                         lastsplit[y][0] = currrow;
                         lastsplit[y][1] = currcol;
-                        currrow=testrow;
-                        currcol=testcol;
-                        y++;
-                        
-                    }
-                    else{
-                        currrow=lastsplit[y][0];
-                        currcol=lastsplit[y][1];
-                        y--;
-                        continue;
-                    }
-                }
-                else if (board[currrow-2][currcol+1] <8 && board[currrow-2][currcol+1]>0 && triedmoves[board[currrow][currcol]][2]!=-1){
-                    testrow = currrow - 2;
-                    testcol = currcol + 1;
-                    triedmoves[board[currrow][currcol]][2]=-1;
-                    if (!Check.check(testrow,testcol,board)){
-                        correctsol[movenum]= board[testrow][testcol];
+                        currrow = testrow;
+                        currcol = testcol;
                         movenum++;
-                        
-                        lastsplit[y][0] = currrow;
-                        lastsplit[y][1] = currcol;
-                        currrow=testrow;
-                        currcol=testcol;
                         y++;
-                        
+                        moved = true;
+                        break;
                     }
-                    else{
-                        currrow=lastsplit[y][0];
-                        currcol=lastsplit[y][1];
-                        y--;
-                        continue;
-                    }
-                }
-                else if (board[currrow-2][currcol-1] <8 && board[currrow-2][currcol-1]>0 && triedmoves[board[currrow][currcol]][3]!=-1){
-                    testrow = currrow - 2;
-                    testcol = currcol - 1;
-                    triedmoves[board[currrow][currcol]][3]=-1;
-                    if (!Check.check(testrow,testcol,board)){
-                       
-                        correctsol[movenum]= board[testrow][testcol];
-                        movenum++;
-                        
-                        lastsplit[y][0] = currrow;
-                        lastsplit[y][1] = currcol;
-                        currrow=testrow;
-                        currcol=testcol;
-                        y++;
-                    }
-                    else{
-                        currrow=lastsplit[y][0];
-                        currcol=lastsplit[y][1];
-                        y--;
-                        continue;
-                    }
-                }
-                else if (board[currrow+1][currcol+2] <8 && board[currrow+1][currcol+2]>0 && triedmoves[board[currrow][currcol]][4]!=-1){
-                    testrow = currrow + 1;
-                    testcol = currcol + 2;
-                    triedmoves[board[currrow][currcol]][4]=-1;
-                    if (!Check.check(testrow,testcol,board)){
-                        correctsol[movenum]= board[testrow][testcol];
-                        movenum++;
-                        
-                        lastsplit[y][0] = currrow;
-                        lastsplit[y][1] = currcol;
-                        currrow=testrow;
-                        currcol=testcol;
-                        y++;
-                        
-                    }
-                    else{
-                        currrow=lastsplit[y][0];
-                        currcol=lastsplit[y][1];
-                        y--;
-                        continue;
-                    }
-
-                }
-                else if (board[currrow+1][currcol-2] <8 && board[currrow+1][currcol-2]>0 && triedmoves[board[currrow][currcol]][5]!=-1){
-                    testrow = currrow + 1;
-                    testcol = currcol - 2;
-                    triedmoves[board[currrow][currcol]][5]=-1;
-                    if (!Check.check(testrow,testcol,board)){
-                        correctsol[movenum]= board[testrow][testcol];
-                        movenum++;
-                        
-                        lastsplit[y][0] = currrow;
-                        lastsplit[y][1] = currcol;
-                        currrow=testrow;
-                        currcol=testcol;
-                        y++;
-                        
-                    }
-                    else{
-                        currrow=lastsplit[y][0];
-                        currcol=lastsplit[y][1];
-                        y--;
-                       continue;
-                    }
-                }
-                else if (board[currrow-1][currcol+2]<8 && board[currrow-1][currcol+2]>0 && triedmoves[board[currrow][currcol]][6]!=-1){
-                    testrow = currrow - 1;
-                    testcol = currcol + 2;
-                    triedmoves[board[currrow][currcol]][6]=-1;
-                    if (!Check.check(testrow,testcol,board)){
-                        correctsol[movenum]= board[testrow][testcol];
-                        movenum++;
-                        
-                        lastsplit[y][0] = currrow;
-                        lastsplit[y][1] = currcol;
-                        currrow=testrow;
-                        currcol=testcol;
-                        y++;
-                        
-                    }
-                    else{
-                        currrow=lastsplit[y][0];
-                        currcol=lastsplit[y][1];
-                        y--;
-                        continue;
-                    }
-                }
-                else if (board[currrow-1][currcol-2]<8 && board[currrow-1][currcol-2]>0 && triedmoves[board[currrow][currcol]][7]!=-1){
-                    testrow = currrow - 1;
-                    testcol = currcol - 2;
-                    triedmoves[board[currrow][currcol]][7]=-1;
-                    if (!Check.check(testrow,testcol,board)){
-                        correctsol[movenum]= board[testrow][testcol];
-                        movenum++;
-                        
-                        lastsplit[y][0] = currrow;
-                        lastsplit[y][1] = currcol;
-                        currrow=testrow;
-                        currcol=testcol;
-                        y++;
-                        
-                    }
-                    else{
-                        currrow=lastsplit[y][0];
-                        currcol=lastsplit[y][1];
-                        y--;
-                        movenum--;
-                        continue;
-                    }
-                }
-
-        }  
-            catch (ArrayIndexOutOfBoundsException e) {
-                continue;
-            }
-            finally{
-                if(movenum==64 && board[currrow][currcol]==1){
-                    // once tried all if we're back on start than we must be done 
-                    solved=true;
-                    break;
                 }
             }
- 
-       
-    }
-       if (solved){
-            for (int z=0;z<64;z++){
+
+             if (movenum == 64) {
+                solved = true;
+            }
+        }
+
+        if (solved) {
+            for (int z = 0; z < 64; z++) {
                 System.out.println(correctsol[z]);
             }
+        } else {
+            System.out.println("No solution found.");
         }
+    }
+
+    static class Check {
+        static int[] visited = new int[65];
+
+        public static boolean check(int testrow, int testcol, int[][] board) {
+            return visited[board[testrow][testcol]] != 0 || (visited[board[testrow][testcol]] = board[testrow][testcol]) == 0;
+        }
+    }
 }
-    
-     static class Check extends main{
-         static int[] visited=new int[65];//so i dont need to keep adding +1 -1's everywhere 
-             public static boolean check (int testrow, int testcol,int[][]  board){
-                if (visited[board[testrow][testcol]]!=0){
-                    return true;
-                }
-                else{
-                    visited[board[testrow][testcol]]=board[testrow][testcol];
-                    return false;
-                }
-        }
-     }
-    }    
-    
-
-    
-
